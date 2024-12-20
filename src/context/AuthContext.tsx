@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthState, User } from '../types/auth';
+import { AuthState } from '../types/auth';
 
 interface AuthContextType extends AuthState {
   register: (data: { name: string; email: string; password: string }) => Promise<void>;
@@ -17,7 +17,7 @@ const AuthContext = createContext<AuthContextType>({
   logout: async () => {},
 });
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }: { children: ReactNode }) => {
   const [state, setState] = useState<AuthState>({
     user: null,
     loading: false,
@@ -26,11 +26,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const navigate = useNavigate();
 
   const register = useCallback(async (data: { name: string; email: string; password: string }) => {
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    setState((prev: AuthState) => ({ ...prev, loading: true, error: null }));
     try {
       // TODO: Implement Firebase registration
       // For now, just simulate a successful registration
-      setState(prev => ({
+      setState((prev: AuthState) => ({
         ...prev,
         loading: false,
         user: {
@@ -50,11 +50,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [navigate]);
 
-  const login = useCallback(async (email: string, password: string) => {
-    setState(prev => ({ ...prev, loading: true, error: null }));
+  const login = useCallback(async (email: string, _password: string) => {
+    setState((prev: AuthState) => ({ ...prev, loading: true, error: null }));
     try {
       // TODO: Implement Firebase login
-      setState(prev => ({
+      setState((prev: AuthState) => ({
         ...prev,
         loading: false,
         user: {
@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }));
       navigate('/');
     } catch (error) {
-      setState(prev => ({
+      setState((prev: AuthState) => ({
         ...prev,
         loading: false,
         error: 'Erro ao fazer login',
@@ -75,17 +75,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [navigate]);
 
   const logout = useCallback(async () => {
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    setState((prev: AuthState) => ({ ...prev, loading: true, error: null }));
     try {
       // TODO: Implement Firebase logout
-      setState(prev => ({
+      setState((prev: AuthState) => ({
         ...prev,
         loading: false,
         user: null,
       }));
       navigate('/login');
     } catch (error) {
-      setState(prev => ({
+      setState((prev: AuthState) => ({
         ...prev,
         loading: false,
         error: 'Erro ao fazer logout',
