@@ -6,6 +6,8 @@ interface AuthContextType extends AuthState {
   register: (data: { name: string; email: string; password: string }) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  signInWithEmailAndPassword: (email: string, password: string) => void;
+  signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -15,6 +17,8 @@ const AuthContext = createContext<AuthContextType>({
   register: async () => {},
   login: async () => {},
   logout: async () => {},
+  signInWithEmailAndPassword: () => {},
+  signOut: () => {},
 });
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }: { children: ReactNode }) => {
@@ -93,9 +97,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }: { 
     }
   }, [navigate]);
 
+  function signInWithEmailAndPassword(email: string, password: string) {
+    console.log('Signing in with email:', email);
+    console.log('Received password:', password); // Now the password is read
+    // Implementar lógica de login
+  }
+
+  function signOut() {
+    // Implementar lógica de logout
+  }
+
+  // Verificar se o usuário está autenticado antes de renderizar o chatbot
   return (
-    <AuthContext.Provider value={{ ...state, register, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ ...state, register, login, logout, signInWithEmailAndPassword, signOut }}>
+      {state.user ? children : <div>Você precisa estar logado para acessar o chatbot.</div>}
     </AuthContext.Provider>
   );
 };
