@@ -1,21 +1,27 @@
-import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { AuthProvider } from './context/AuthContext';
 import { AppRoutes } from './routes';
+import { DatabaseProvider } from './context/DatabaseContext';
 // In ./components/Chatbot.tsx
 export const Chatbot = () => {
-  // component code
+  return (
+    <div>
+      {/* component code */}
+    </div>
+  );
 };
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Layout>
-          <AppRoutes />
-        </Layout>
-        <Chatbot />
+        <DatabaseProvider>
+          <Layout>
+            <AppRoutes />
+          </Layout>
+          <Chatbot />
+        </DatabaseProvider>
       </AuthProvider>
     </BrowserRouter>
   );
